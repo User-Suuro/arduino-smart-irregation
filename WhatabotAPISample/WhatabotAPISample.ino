@@ -3,10 +3,10 @@
 #include <ESP8266WiFi.h>
 
 // WIFI 
-#define AP_SSID "Mhico"
-#define AP_PASS "09292004"
+#define AP_SSID "X8b"
+#define AP_PASS "12345678"
 
-// API 
+// API
 #define WHATABOT_API_KEY "a227d1bd-9adc-4a50-af39"
 #define WHATABOT_CHAT_ID "639946826707"
 #define WHATABOT_PLATFORM "whatsapp"
@@ -35,8 +35,10 @@ void loop() {
   
   whatabotClient.loop(); 
 
-  if(whatabotClient.getAPIStatus()) {
-    Serial.println("hatdog");
+  if(whatabotClient.getAPIStatus() && !init_sms) {
+    init_sms = true;
+    Serial.println("API Ready");
+    whatabotClient.sendMessageWS("Smart Irregation is ready for your command");
   };
   
   delay(500);
@@ -50,6 +52,7 @@ void onServerResponseReceived(String response) {
 }
 
 void onMessageReceived(String message) {
+  // receives what the user types
   Serial.println(message);
 }
 
