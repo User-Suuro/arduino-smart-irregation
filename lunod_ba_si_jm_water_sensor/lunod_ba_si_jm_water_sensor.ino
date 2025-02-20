@@ -6,7 +6,6 @@
 
 #define sensorPin A0
 
-#define relayPin 10
 
 // Create LCD object (address 0x27 is common for many I2C LCDs, but you might need to adjust it based on your setup)
 LiquidCrystal_I2C lcd(0x27, 16, 2); // Adjust I2C address and size if needed
@@ -17,11 +16,10 @@ int val = 0;
 void setup() {
   // Set D7 as an OUTPUT
   pinMode(sensorPower, OUTPUT);
-  pinMode(relayPin, OUTPUT);
+  
   
   // Set to LOW so no power flows through the sensor initially
   digitalWrite(sensorPower, LOW);
-  digitalWrite(relayPin, LOW);
   
   Serial.begin(9600);
   
@@ -51,12 +49,11 @@ void loop() {
     lcd.setCursor(0, 1); // Move cursor to the second line to overwrite
    
     // Activate relay if water level is high
-    digitalWrite(relayPin, LOW);  // Turn on relay if water level is high
+  
   } else {
     // If water level is not high, display a "safe" message
     lcd.setCursor(0, 1);  // Move cursor to the second line again
     lcd.print("Hindi    "); // Display message if water level is safe
-    digitalWrite(relayPin, HIGH);  // Turn off relay if water level is safe
   }
 
   delay(1000);  // Update every second
