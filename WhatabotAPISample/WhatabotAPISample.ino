@@ -1,6 +1,9 @@
 #include <WhatabotAPIClient.h>
 #include <WiFiManager.h>
 #include <ESP8266WiFi.h>
+#include <SoftwareSerial.h>
+
+SoftwareSerial espSerial(4, 0);  // (D2 = 4) RX, (D3 = 0) TX pins for ESP8266 (you can use any available pins)
 
 // WIFI 
 #define AP_SSID "X8b"
@@ -17,7 +20,8 @@ WhatabotAPIClient whatabotClient(WHATABOT_API_KEY, WHATABOT_CHAT_ID, WHATABOT_PL
 bool init_sms = false;
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600);
+  espSerial.begin(9600);
 
   while (true) {
       if (connectToWifi(AP_SSID, AP_PASS)) {
@@ -28,6 +32,9 @@ void setup() {
       }
   }
 
+
+
+  
  
 }
 
@@ -35,10 +42,12 @@ void loop() {
   
   whatabotClient.loop(); 
 
+  espSerial.println("Hello from ESP!");
+
   if(whatabotClient.getAPIStatus() && !init_sms) {
     init_sms = true;
     Serial.println("API Ready");
-    whatabotClient.sendMessageWS("Smart Irregation is ready for your command");
+    // whatabotClient.sendMessageWS("Smart Irregation is ready for your command");
   };
   
   delay(500);
