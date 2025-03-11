@@ -1,6 +1,9 @@
 #include <SoftwareSerial.h>
 
-SoftwareSerial sendSerial(2, 3);  // RX, TX (connect to ESP8266 TX, RX)
+// D3(TX) (ARDUINO) -> RX (ESP)
+// D2(RX) (ARDUINO) -> TX (ESP) 
+
+SoftwareSerial sendSerial(2, 3);  
 
 void setup() {
   // beging local serial
@@ -11,24 +14,15 @@ void setup() {
 }
 
 void loop() {
+  sendSerial.println("hatdog");
+  sendSerial.flush();
 
-  if(Serial.available()) {
-    int state = Serial.parseInt();
-
-    if (state == 1) {
-      Serial.println("Command Received: 1");
-      // send response
-      sendSerial.println("1 daw sabi ng arduino");
-    }
-
-    if (state == 0) {
-      Serial.println("Command Received: 0");
-       // send response
-      sendSerial.println("0 daw sabi ng arduino");
-    }
-
+  
+   if(Serial.available()){
+    //read response
+    String sent = Serial.readStringUntil('#');
+    Serial.println(sent);
   }
-  Serial.println("a");
   delay(1000);
 }
 

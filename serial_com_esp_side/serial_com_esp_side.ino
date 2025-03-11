@@ -1,24 +1,26 @@
 #include <SoftwareSerial.h>
 
-SoftwareSerial sendSerial(13, 15);  // (D2 = 4) RX, (D3 = 0) TX pins for ESP8266 (you can use any available pins)
+
+// D7 (RX) (ESP) -> TX (ARDUINO)
+// D8 (TX) (ESP) -> RX (ARDUINO)
+
+SoftwareSerial sendSerial(15,13);  
 
 void setup() {
   Serial.begin(9600);     //  Begin local serial
   sendSerial.begin(9600);  // esp -> arduino
-}
+} 
 
 void loop() {
-  sendSerial.write("0");
-  delay(1000);
-  sendSerial.write("1");
-  delay(1000);
+  sendSerial.write("cheesedog#");
+  sendSerial.flush();
 
-  if(Serial.available()){
-    //read response
-    String sent = Serial.readString();
-    Serial.println(sent);
+    if(Serial.available()){
+      //read response
+      String sent = Serial.readString();
+      Serial.println("Message:" + sent);
+    }
+
+    delay(1000);
   }
-
-
-}
 

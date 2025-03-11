@@ -1,6 +1,6 @@
-int enA=9;
-int in1=8;
-int in2=7;
+int enA=7;
+int in1=6;
+int in2=5;
 
 void setup() {
   // put your setup code here, to run once:
@@ -11,10 +11,13 @@ void setup() {
   digitalWrite(in1,LOW);
   digitalWrite(in2,LOW);
 
+  Serial.begin(9600);
+
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
+  Serial.println("hatdog");
   directionControl();
   delay(1000);
   speedControl();
